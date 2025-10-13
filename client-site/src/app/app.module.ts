@@ -1,20 +1,27 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HomeComponent } from './components/home/home.component';
+
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: '**', redirectTo: '' }
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    RouterModule.forRoot(routes),
+     HttpClientModule  
   ],
-  providers: [
-    provideClientHydration(withEventReplay())
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
