@@ -1,4 +1,3 @@
-/* Search Page Specific Styles */
 .search-form {
   background: white;
   padding: 2rem;
@@ -88,7 +87,6 @@
   margin-bottom: 1rem;
 }
 
-/* Events Section (通用样式，Search 页面也会用到) */
 .events-section {
   padding: 4rem 2rem;
   max-width: 1200px;
@@ -219,7 +217,6 @@
   margin: 2rem 0;
 }
 
-/* Responsive Design for Search Page */
 @media (max-width: 768px) {
   .events-section {
     padding: 2rem 1rem;
