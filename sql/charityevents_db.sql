@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80033
 File Encoding         : 65001
 
-Date: 2025-10-03 17:08:35
+Date: 2025-10-17 18:28:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -100,3 +100,34 @@ INSERT INTO `organizations` VALUES ('7', 'Poverty Alleviation Foundation', 'bbb@
 INSERT INTO `organizations` VALUES ('8', 'Green Earth Environmental Organization', '111@qq.com');
 INSERT INTO `organizations` VALUES ('9', 'Animal Protection Alliance', '111@outlook.com');
 INSERT INTO `organizations` VALUES ('10', 'Disaster Relief Emergency Center', 'test@outlook.com');
+
+-- ----------------------------
+-- Table structure for registrations
+-- ----------------------------
+DROP TABLE IF EXISTS `registrations`;
+CREATE TABLE `registrations` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `event_id` int NOT NULL,
+  `user_name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `user_email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `contact_number` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `registration_date` date NOT NULL,
+  `ticket_quantity` int NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_registration` (`event_id`,`user_email`),
+  CONSTRAINT `registrations_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of registrations
+-- ----------------------------
+INSERT INTO `registrations` VALUES ('1', '1', 'Alice Smith', 'alice@example.com', '08612345678', '2025-10-01', '2');
+INSERT INTO `registrations` VALUES ('2', '1', 'Bob Johnson', 'bob@example.com', '08612345679', '2025-10-02', '1');
+INSERT INTO `registrations` VALUES ('3', '1', 'Carol Lee', 'carol@example.com', '08612345680', '2025-10-03', '3');
+INSERT INTO `registrations` VALUES ('4', '2', 'David Brown', 'david@example.com', '08612345681', '2025-10-04', '1');
+INSERT INTO `registrations` VALUES ('5', '2', 'Eva Davis', 'eva@example.com', '08612345682', '2025-10-05', '2');
+INSERT INTO `registrations` VALUES ('6', '3', 'Frank Wilson', 'frank@example.com', '08612345683', '2025-10-06', '1');
+INSERT INTO `registrations` VALUES ('7', '3', 'Grace Miller', 'grace@example.com', '08612345684', '2025-10-07', '1');
+INSERT INTO `registrations` VALUES ('8', '4', 'Henry Taylor', 'henry@example.com', '08612345685', '2025-10-08', '2');
+INSERT INTO `registrations` VALUES ('9', '5', 'Irene Clark', 'irene@example.com', '0862345686', '2025-10-09', '1');
+INSERT INTO `registrations` VALUES ('10', '5', 'Jack White', 'jack@example.com', '08612345687', '2025-10-10', '2');
