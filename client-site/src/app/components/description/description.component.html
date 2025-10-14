@@ -1,0 +1,52 @@
+<section class="events-section">
+  <h2 class="section-title">Charity Event Description</h2>
+  
+  <div *ngIf="loading" class="loading">
+    <p>Loading event details...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="event && !loading" class="events-description">
+    <div class="event-poster">
+      <img src="assets/img/img{{event.id}}.png" [alt]="event.title">
+    </div>
+    
+    <div class="event-details">
+      <h1 class="event-title">{{ event.title }}</h1>
+      
+      <div class="detail-item">
+        <div class="detail-label">Organization</div>
+        <div class="detail-content">{{ event.organizer_name }}</div>
+        <div class="detail-content"><h3>Email: {{ event.organizer_email }}</h3></div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-label">Description</div>
+        <div class="detail-content">{{ event.description }}</div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-label">Event Date</div>
+        <div class="detail-content">{{ formatDate(event.start_date) }} to {{ formatDate(event.end_date) }}</div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-label">Location</div>
+        <div class="detail-content">{{ event.location }}</div>
+      </div>
+      
+      <div class="detail-item">
+        <div class="detail-label">Target Population</div>
+        <div class="detail-content">{{ event.target }}</div>
+      </div>
+
+      <div class="detail-item">
+        <div class="detail-label">Category</div>
+        <div class="detail-content">{{ event.category_name }}</div>
+      </div>
+    </div>
+  </div>
+</section>

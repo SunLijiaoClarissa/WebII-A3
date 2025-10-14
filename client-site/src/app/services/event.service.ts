@@ -12,6 +12,8 @@ export interface Event {
   target: string;
   status: number;
   category_name?: string;
+  organizer_name?: string;
+  organizer_email?: string;
 }
 
 @Injectable({
@@ -49,7 +51,7 @@ export class EventService {
     events.forEach(event => {
       const startDate = new Date(event.start_date);
       const endDate = new Date(event.end_date);
-      
+
       if (endDate < today) {
         result.finish.push(event);
       } else if (startDate <= today && endDate >= today) {
@@ -62,5 +64,11 @@ export class EventService {
     return result;
   }
 
-
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 }

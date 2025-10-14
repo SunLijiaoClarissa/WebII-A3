@@ -7,10 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { SearchComponent } from './components/search/search.component';
+import { DescriptionComponent } from './components/description/description.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'search', component: SearchComponent },
+  { path: 'description/:id', component: DescriptionComponent },
   { path: '**', redirectTo: '' }
 ];
 
@@ -19,6 +21,7 @@ const routes: Routes = [
     AppComponent,
     HomeComponent,
     SearchComponent,
+    DescriptionComponent,
   ],
   imports: [
     BrowserModule,
