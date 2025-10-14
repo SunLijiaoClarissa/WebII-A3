@@ -1,29 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-
-interface Event {
-  id: number;
-  title: string;
-  description: string;
-  start_date: string;
-  end_date: string;
-  location: string;
-  target: string;
-  category_name: string;
-}
-
-interface Category {
-  id: number;
-  name: string;
-}
+import { EventService, Event } from '../../services/event.service';
+import { CategoryService, Category } from '../../services/category.service';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
-  standalone:false
+  standalone: false
 })
+
 export class SearchComponent implements OnInit {
   categories: Category[] = [];
   events: Event[] = [];
@@ -37,7 +23,8 @@ export class SearchComponent implements OnInit {
   selectedCategory = '';
 
   constructor(
-    private http: HttpClient,
+    private eventService: EventService,
+    private categoryService: CategoryService,
     private router: Router
   ) { }
 
@@ -46,16 +33,15 @@ export class SearchComponent implements OnInit {
   }
 
   loadCategories(): void {
-    this.http.get<Category[]>('http://localhost:3060/api/categories')
-      .subscribe({
-        next: (categories) => {
-          this.categories = categories;
-        },
-        error: (error) => {
-          console.error('Failed to load categories:', error);
-          this.errorMessage = 'Failed to load categories. Please try again later.';
-        }
-      });
+    this.categoryService.getCategories().subscribe({
+      next: (categories) => {
+        this.categories = categories;
+      },
+      error: (error) => {
+        console.error('Failed to load categories:', error);
+        this.errorMessage = 'Failed to load categories. Please try again later.';
+      }
+    });
   }
 
   clearFilters(): void {
@@ -81,29 +67,30 @@ export class SearchComponent implements OnInit {
     this.loading = true;
     this.events = [];
 
-    try {
-      // query parameters
-      const params: any = {};
 
-      if (this.dateFrom) params.dateFrom = this.dateFrom;
-      if (this.dateTo) params.dateTo = this.dateTo;
-      if (this.location) params.location = this.location;
-      if (this.selectedCategory) params.categoryId = this.selectedCategory;
+    // query parameters
+    const params: any = {};
 
-      const response = await this.http.get<Event[]>('http://localhost:3060/api/search', { params }).toPromise();
+    if (this.dateFrom) params.dateFrom = this.dateFrom;
+    if (this.dateTo) params.dateTo = this.dateTo;
+    if (this.location) params.location = this.location;
+    if (this.selectedCategory) params.categoryId = this.selectedCategory;
 
-      if (response) {
-        this.events = response;
+    this.eventService.searchEvents(params).subscribe({
+      next: (events) => {
+        this.events = events;
         if (this.events.length === 0) {
           this.errorMessage = 'No events found. Please try different search criteria.';
         }
+      },
+      error: (error) => {
+        console.error('Search error:', error);
+        this.errorMessage = 'Failed to search events. Please try again later.';
+      },
+      complete: () => {
+        this.loading = false;
       }
-    } catch (error) {
-      console.error('Search error:', error);
-      this.errorMessage = 'Failed to search events. Please try again later.';
-    } finally {
-      this.loading = false;
-    }
+    });
   }
 
   formatDate(dateString: string): string {
