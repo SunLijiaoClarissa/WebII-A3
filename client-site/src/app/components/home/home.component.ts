@@ -1,16 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-interface Event {
-  id: number;
-  title: string;
-  description: string;
-  start_date: string;
-  end_date: string;
-  location: string;
-  target: string;
-  status: number;
-}
+import { EventService, Event } from '../../services/event.service';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +8,7 @@ interface Event {
   standalone: false
 })
 export class HomeComponent implements OnInit {
+  //tab
   currentTab: string = 'current';
   events = {
     current: [] as Event[],
@@ -26,45 +16,20 @@ export class HomeComponent implements OnInit {
     finish: [] as Event[]
   };
   
-  constructor(private http: HttpClient) { }
+constructor(private eventService: EventService) { }
 
   ngOnInit(): void {
     this.loadEvents();
   }
 
   loadEvents(): void {
-    this.http.get<Event[]>('http://localhost:3060/api/events')
-      .subscribe({
-        next: (data) => {
-          //获取活动状态为1的事件
-          const activeEvents = data.filter(event => event.status === 1);
-          this.categorizeEvents(activeEvents);
-        },
-        error: (error) => {
-          console.error('Failed to get events data', error);
-        }
-      });
-  }
-
-  // status category by date
-  categorizeEvents(events: Event[]): void {
-    const today = new Date();
-    
-    this.events.current = [];
-    this.events.coming = [];
-    this.events.finish = [];
-    
-    events.forEach(event => {
-      const startDate = new Date(event.start_date);
-      const endDate = new Date(event.end_date);
-      
-      // switch by current day
-      if (endDate < today) {
-        this.events.finish.push(event);
-      } else if (startDate <= today && endDate >= today) {
-        this.events.current.push(event);
-      } else if (startDate > today) {
-        this.events.coming.push(event);
+    this.eventService.getEvents().subscribe({
+      next: (data) => {
+        const activeEvents = data.filter(event => event.status === 1);
+        this.events = this.eventService.eventStatus(activeEvents);
+      },
+      error: (error) => {
+        console.error('Failed to get events data', error);
       }
     });
   }
