@@ -17,11 +17,10 @@ router.get("/events", (req, res) => {
     });
 });
 
-//get description
+//get description & relate regist
 router.get("/events/:id", (req, res) => {
     const eventId = req.params.id;
 
-    // 查询活动基本信息
     const eventQuery = `
         SELECT 
             e.*,
@@ -33,12 +32,30 @@ router.get("/events/:id", (req, res) => {
         LEFT JOIN categories c ON e.category_id = c.id
         WHERE e.id = ?
     `;
-    connection.query(eventQuery, eventId, (err, results) => {
+
+    //relate registration
+    const registrationsQuery = `
+            SELECT *
+            FROM registrations
+            WHERE event_id = ?
+            ORDER BY registration_date DESC
+        `;
+
+    connection.query(eventQuery, eventId, (err, eventResults) => {
         if (err) {
-            console.log("Error when retriving the data");
+            console.log("event data error", err);
         }
         else {
-            res.json(results[0]);
+            const event = eventResults[0];
+
+            connection.query(registrationsQuery, eventId, (err, registrationResults) => {
+                if (err) {
+                    console.error("registration data error", err);
+                }
+
+                event.registrations = registrationResults;
+                res.json(event);
+            });
         }
     });
 
