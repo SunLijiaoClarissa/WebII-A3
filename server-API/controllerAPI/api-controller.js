@@ -116,4 +116,56 @@ router.get("/regist/:id", (req, res) => {
         });
 });
 
+// 创建新事件
+router.post("/events", (req, res) => {
+    const { 
+        name, 
+        description, 
+        start_date, 
+        end_date, 
+        location, 
+        organizer_id, 
+        category_id, 
+        goal_amount, 
+        current_amount, 
+        status 
+    } = req.body;
+
+    // Verify item
+    if (!name || !start_date || !end_date || !location || !organizer_id || !category_id) {
+        return res.status(400).json({ error: "Missing required items. Please Check! " });
+    }
+
+    const insertQuery = `
+        INSERT INTO events (name, description, start_date, end_date, location, organizer_id, category_id, goal_amount, current_amount, status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const values = [
+        name, 
+        description || '', 
+        start_date, 
+        end_date, 
+        location, 
+        organizer_id, 
+        category_id, 
+        goal_amount || 0, 
+        current_amount || 0, 
+        status || 1
+    ];
+
+    connection.query(insertQuery, values, (err, results) => {
+        if (err) {
+            console.error("Error inserting event:", err);
+            return res.status(500).json({ error: "Failed to insert event" });
+        }
+
+        res.status(201).json({ 
+            message: "Event created successfully", 
+            eventId: results.insertId 
+        });
+    });
+});
+
+
 module.exports = router;
