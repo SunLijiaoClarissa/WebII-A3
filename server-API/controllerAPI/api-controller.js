@@ -7,51 +7,47 @@ const connection = dbcon.getConnection();
 connection.connect();
 
 router.get("/events", (req, res) => {
-	connection.query("SELECT * FROM events", (err, results) => {
-		if (err) {
-			console.log("Error when retriving the data");
-		}
-		else {
-			res.json(results);
-		}
-	});
+    connection.query("SELECT * FROM events", (err, results) => {
+        if (err) {
+            console.log("Error when retriving the data");
+        }
+        else {
+            res.json(results);
+        }
+    });
 });
 
 //get description
 router.get("/events/:id", (req, res) => {
-	const eventId = req.params.id;
+    const eventId = req.params.id;
 
-	// 查询活动基本信息
-	const eventQuery = `
+    // 查询活动基本信息
+    const eventQuery = `
         SELECT 
             e.*,
             o.name AS organizer_name,
             o.email AS organizer_email,
             c.name AS category_name
-        FROM 
-            events e
-        LEFT JOIN 
-            organizations o ON e.organizer_id = o.id
-        LEFT JOIN 
-            categories c ON e.category_id = c.id
-        WHERE 
-            e.id = ?
+        FROM  events e
+        LEFT JOIN organizations o ON e.organizer_id = o.id
+        LEFT JOIN categories c ON e.category_id = c.id
+        WHERE e.id = ?
     `;
-	connection.query(eventQuery, eventId, (err, results) => {
-		if (err) {
-			console.log("Error when retriving the data");
-		}
-		else {
-			res.json(results[0]);
-		}
-	});
+    connection.query(eventQuery, eventId, (err, results) => {
+        if (err) {
+            console.log("Error when retriving the data");
+        }
+        else {
+            res.json(results[0]);
+        }
+    });
 
 });
 
-// 极简版搜索API
+//search event
 router.get("/search", (req, res) => {
     const { dateFrom, dateTo, location, categoryId } = req.query;
-    
+
     let query = `
         SELECT e.*, o.name AS organizer_name, c.name AS category_name
         FROM events e
@@ -59,9 +55,9 @@ router.get("/search", (req, res) => {
         LEFT JOIN categories c ON e.category_id = c.id
         WHERE e.status = 1
     `;
-    
+
     const params = [];
-    
+
     if (dateFrom) {
         query += ` AND e.start_date >= ?`;
         params.push(dateFrom);
@@ -78,7 +74,7 @@ router.get("/search", (req, res) => {
         query += ` AND e.category_id = ?`;
         params.push(categoryId);
     }
-    
+
     connection.query(query, params, (err, results) => {
         if (err) {
             console.error("Search error:", err);
@@ -90,14 +86,34 @@ router.get("/search", (req, res) => {
 
 
 router.get("/categories", (req, res) => {
-	connection.query("SELECT * FROM categories", (err, results) => {
-		if (err) {
-			console.log("Error when retriving the data");
-		}
-		else {
-			res.json(results);
-		}
-	});
+    connection.query("SELECT * FROM categories", (err, results) => {
+        if (err) {
+            console.log("Error when retriving the data");
+        }
+        else {
+            res.json(results);
+        }
+    });
+});
+
+
+//get registration by event id
+router.get("/regist/:id", (req, res) => {
+    const eventId = req.params.id;
+
+    connection.query(`
+        SELECT * 
+        FROM registrations
+        WHERE event_id =?
+        `,
+        eventId, (err, results) => {
+            if (err) {
+                console.log("Error when retriving the data");
+            }
+            else {
+                res.json(results);
+            }
+        });
 });
 
 module.exports = router;
