@@ -22,11 +22,20 @@ export interface Event {
 export interface Registration {
   id: number;
   event_id: number;
-  user_name: string; //username
-  user_email: string;//useremail
+  user_name: string; 
+  user_email: string;
   registration_date: string;
-  ticket_quantity: string;//ticket_quantity
+  ticket_quantity: string;
 }
+
+export interface RegistrationFormData {
+  event_id: number;
+  user_name: string;
+  user_email: string;
+  contact_number: string;
+  ticket_quantity: number;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +65,6 @@ export class EventService {
     return this.http.get<Registration[]>(`${this.apiUrl}/regist/${id}`);
   }
 
-
   // event status category
   eventStatus(events: Event[]): { current: Event[], coming: Event[], finish: Event[] } {
     const today = new Date();
@@ -81,6 +89,13 @@ export class EventService {
 
     return result;
   }
+
+
+  // submit regist
+  submitRegistration(registrationData: RegistrationFormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/registrations`, registrationData);
+  }
+
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);

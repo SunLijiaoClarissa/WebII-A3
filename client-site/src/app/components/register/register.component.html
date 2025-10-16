@@ -1,1 +1,118 @@
-<p>register works!</p>
+<section class="events-section">
+  <h2 class="section-title">Event Registration</h2>
+
+  <div *ngIf="errorMessage && !success" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- 成功注册消息 -->
+  <div *ngIf="success" class="success-message">
+    <div class="success-content">
+      <h3>🎉 Registration Successful!</h3>
+      <p>Thank you for registering for this event. You will be redirected to the event details page in a few seconds.</p>
+      <button class="btn btn-secondary" (click)="goBack()">Return to Event Details</button>
+    </div>
+  </div>
+
+  <div *ngIf="event && !success" class="registration-container">
+    <!-- 事件信息 -->
+    <div class="event-info-card">
+      <h3>Event Details</h3>
+      <div class="event-card">
+        <h4 class="event-title">{{ event.title }}</h4>
+        <p class="event-description">{{ event.description }}</p>
+        <div class="event-meta">
+          <div class="event-date">
+            <strong>Date:</strong> {{ formatDate(event.start_date) }} to {{ formatDate(event.end_date) }}
+          </div>
+          <div class="event-location">
+            <strong>Location:</strong> {{ event.location }}
+          </div>
+          <div class="event-category">
+            <strong>Category:</strong> {{ event.category_name }}
+          </div>
+          <div *ngIf="event.ticket_price" class="ticket-price">
+            <strong>Ticket Price:</strong> ${{ event.ticket_price }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 注册表单 -->
+    <div class="registration-form-card">
+      <h3>Registration Form</h3>
+      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="user_name">Full Name *</label>
+          <input 
+            type="text" 
+            id="user_name" 
+            formControlName="user_name" 
+            class="form-control"
+            [class.is-invalid]="submitted && f['user_name'].errors"
+            placeholder="Enter your full name">
+            <div *ngIf="submitted && f['user_name'].errors" class="invalid-feedback">
+            <div *ngIf="f['user_name'].errors['required']">Name is required</div>
+            <div *ngIf="f['user_name'].errors['minlength']">Name must be at least 2 characters</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="user_email">Email Address *</label>
+          <input 
+            type="email" 
+            id="user_email" 
+            formControlName="user_email" 
+            class="form-control"
+              [class.is-invalid]="submitted && f['user_email'].errors"
+            placeholder="Enter your email address">
+          <div *ngIf="submitted && f['user_email'].errors" class="invalid-feedback">
+            <div *ngIf="f['user_email'].errors['required']">Email is required</div>
+            <div *ngIf="f['user_email'].errors['email']">Please enter a valid email address</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="contact_number">Contact Number *</label>
+          <input 
+            type="tel" 
+            id="contact_number" 
+            formControlName="contact_number" 
+            class="form-control"
+          [class.is-invalid]="submitted && f['contact_number'].errors"
+            placeholder="Enter your phone number">
+          <div *ngIf="submitted && f['contact_number'].errors" class="invalid-feedback">
+            <div *ngIf="f['contact_number'].errors['required']">Contact number is required</div>
+            <div *ngIf="f['contact_number'].errors['pattern']">Please enter a valid phone number</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="ticket_quantity">Number of Tickets *</label>
+          <input 
+            type="number" 
+            id="ticket_quantity" 
+            formControlName="ticket_quantity" 
+            class="form-control"
+          [class.is-invalid]="submitted && f['ticket_quantity'].errors"
+            min="1" 
+            max="10">
+          <div *ngIf="submitted && f['ticket_quantity'].errors" class="invalid-feedback">
+            <div *ngIf="f['ticket_quantity'].errors['required']">Ticket quantity is required</div>
+            <div *ngIf="f['ticket_quantity'].errors['min']">At least 1 ticket is required</div>
+            <div *ngIf="f['ticket_quantity'].errors['max']">Maximum 10 tickets per registration</div>
+          </div>
+          <small class="form-text">You can purchase up to 10 tickets</small>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" (click)="goBack()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="loading">
+            <span *ngIf="loading">Processing...</span>
+            <span *ngIf="!loading">Complete Registration</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
