@@ -1,0 +1,30 @@
+export interface Event {
+  id?: number;
+  title: string;
+  description: string;
+  start_date: string;
+  end_date: string;
+  location: string;
+  organizer_id: number;
+  category_id: number;
+  category_name?: string;
+  ticket_price?: number;
+  target: string;
+  current_amount?: number;
+  status?: string;
+}
+
+export interface Category {
+  id: number;
+  name: string;
+}
+
+export interface Registration {
+  id: number;
+  event_id: number;
+  user_name: string;
+  user_email: string;
+  contact_number: string;
+  ticket_quantity: number;
+  registration_date: string;
+}
