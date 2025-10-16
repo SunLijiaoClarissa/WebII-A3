@@ -82,7 +82,7 @@ router.put("/event/:id", (req, res) => {
         status
     } = req.body;
 
-    console.log("update, id"+eventId + "\n",  req.body);
+    console.log("update, id" + eventId + "\n", req.body);
 
     // Check data integrity
     if (!title || !start_date || !end_date || !location || !organizer_id || !category_id) {
@@ -123,23 +123,6 @@ router.put("/event/:id", (req, res) => {
         eventId
     ];
 
-    // const updateParams = [];
-    // const fields = [];
-
-    // if (title !== undefined) fields.push("title = ?") && updateParams.push(title);
-    // if (description !== undefined) fields.push("description = ?") && updateParams.push(description);
-    // if (start_date !== undefined) fields.push("start_date = ?") && updateParams.push(start_date);
-    // if (end_date !== undefined) fields.push("end_date = ?") && updateParams.push(end_date);
-    // if (location !== undefined) fields.push("location = ?") && updateParams.push(location);
-    // if (organizer_id !== undefined) fields.push("organizer_id = ?") && updateParams.push(organizer_id);
-    // if (category_id !== undefined) fields.push("category_id = ?") && updateParams.push(category_id);
-    // if (target !== undefined) fields.push("target = ?") && updateParams.push(target);
-    // if (current_amount !== undefined) fields.push("current_amount = ?") && updateParams.push(current_amount);
-    // if (status !== undefined) fields.push("status = ?") && updateParams.push(status);
-    // updateQuery += fields.join(", ");
-    // updateQuery += " WHERE id = ?";
-    // updateParams.push(eventId);
-
     connection.query(updateQuery, values, (err, results) => {
         if (err) {
             console.error("Error updating event:", err);
@@ -149,6 +132,41 @@ router.put("/event/:id", (req, res) => {
         res.json({ message: "Event updated successfully" });
     });
 
+
+});
+
+
+//delete event by event id
+router.delete("/event/:id", (req, res) => {
+    const eventId = req.params.id;
+
+    const checkRegistrationsQuery = "SELECT COUNT(*) as count FROM registrations WHERE event_id = ?";
+    connection.query(checkRegistrationsQuery, eventId, (err, results) => {
+        if (err) {
+            console.error("Error checking registrations:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+
+        const registrationCount = results[0].count;
+
+        if (registrationCount > 0) {
+            return res.status(500).json({ error: "Cannot delete event because it has registrations" });
+        }
+
+        const deleteQuery = "DELETE FROM events WHERE id = ?";
+        connection.query(deleteQuery, eventId, (err, results) => {
+            if (err) {
+                console.error("Error deleting event:", err);
+                return res.status(500).json({ error: "Failed to delete event" });
+            }
+
+            if (results.affectedRows === 0) {
+                return res.status(404).json({ error: "Event not found" });
+            }
+
+            res.json({ message: "Event deleted successfully" });
+        });
+    });
 });
 
 
