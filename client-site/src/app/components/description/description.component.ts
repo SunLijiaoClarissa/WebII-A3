@@ -23,25 +23,26 @@ export class DescriptionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.eventId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     this.loadEventDetails();
   }
 
   loadEventDetails(): void {
-    const eventId = this.route.snapshot.paramMap.get('id');
+    // const eventId = this.route.snapshot.paramMap.get('id');
 
-    if (!eventId) {
+    if (!this.eventId) {
       this.errorMessage = 'No event ID provided.';
       return;
     }
 
     this.loading = true;
-    const id = parseInt(eventId, 10);
+    // const id = parseInt(eventId, 10);
 
-    this.eventService.getEventById(id).subscribe({
+    this.eventService.getEventById(this.eventId).subscribe({
       next: (event) => {
         this.event = event;
         this.loading = false;
-        this.loadRegistrations(id);
+        this.loadRegistrations();
       },
       error: (error) => {
         console.error('Failed to get event details:', error);
@@ -52,12 +53,11 @@ export class DescriptionComponent implements OnInit {
   }
 
 
-  loadRegistrations(id:number): void {
-    // if (!this.eventId) {
-    //   console.log("no id");
-    //   return;
-    // }
-    console.log(id);
+  loadRegistrations(): void {
+
+    console.log("load registration", this.eventId);
+
+    const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
 
     this.loadingRegistrations = true;
 
@@ -79,6 +79,8 @@ export class DescriptionComponent implements OnInit {
   }
 
   navigateToRegistration(): void {
+    console.log('Register button clicked');
+    console.log('Current event ID:', this.eventId);
     if (this.eventId) {
       this.router.navigate(['/register', this.eventId]);
     }

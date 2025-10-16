@@ -52,6 +52,9 @@ export class RegisterComponent implements OnInit {
       }
     });
   }
+    get f() {
+    return this.registrationForm.controls;
+  }
 
 getFormControl(controlName: string) {
     return this.registrationForm.get(controlName);
@@ -61,7 +64,7 @@ getFormControl(controlName: string) {
     const control = this.getFormControl(controlName);
     return control ? control.hasError(errorName) && (control.dirty || control.touched || this.submitted) : false;
   }
-  
+
   onSubmit(): void {
     this.submitted = true;
     this.errorMessage = '';
