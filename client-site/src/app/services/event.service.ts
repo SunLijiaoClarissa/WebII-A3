@@ -10,10 +10,22 @@ export interface Event {
   end_date: string;
   location: string;
   target: string;
+  current_amount:string;
+  ticket_price:string;
   status: number;
   category_name?: string;
   organizer_name?: string;
   organizer_email?: string;
+  registrations?: Registration[];
+}
+
+export interface Registration {
+  id: number;
+  event_id: number;
+  user_name: string; //username
+  user_email: string;//useremail
+  registration_date: string;
+  ticket_quantity: string;//ticket_quantity
 }
 
 @Injectable({
@@ -38,6 +50,12 @@ export class EventService {
   getEventById(id: number): Observable<Event> {
     return this.http.get<Event>(`${this.apiUrl}/events/${id}`);
   }
+
+  // get registrations by event id
+  getRegistrationsByEventId(id: number): Observable<Registration[]> {
+    return this.http.get<Registration[]>(`${this.apiUrl}/regist/${id}`);
+  }
+
 
   // event status category
   eventStatus(events: Event[]): { current: Event[], coming: Event[], finish: Event[] } {

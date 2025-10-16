@@ -10,10 +10,54 @@
   </div>
 
   <div *ngIf="event && !loading" class="events-description">
-    <div class="event-poster">
-      <img src="assets/img/img{{event.id}}.png" [alt]="event.title">
+    <!-- 左列：图片和注册信息 -->
+    <div class="event-left-column">
+      <div class="event-poster">
+        <img src="assets/img/img{{event.id}}.png" [alt]="event.title">
+      </div>
+      
+      <!-- 注册信息部分 -->
+      <div class="registration-section">
+        <!-- Registration Section -->
+        <div class="detail-item">
+          <div class="detail-label">Registrations</div>
+          <div class="detail-content">
+            <div *ngIf="hasRegistrations()" class="registrations-list">
+              <h3>Registered Participants ({{ registrations.length }})</h3>
+              <div class="registration-item" *ngFor="let reg of registrations">
+                <div class="registration-info">
+                  <strong>{{ reg.user_name }}</strong> - {{ reg.user_email }}
+                </div>
+                <div class="registration-meta">
+                  <!-- <div>Phone: {{ reg.contact_number }}</div> -->
+                  <div>Tickets: {{ reg.ticket_quantity }}</div>
+                  <div>Registered on: {{ formatDate(reg.registration_date) }}</div>
+                </div>
+              </div>
+            </div>
+            
+            <div *ngIf="!hasRegistrations()" class="no-registrations">
+              <p>No registrations yet. Be the first to register!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Register Button -->
+        <div class="detail-item">
+          <div class="detail-label">Join This Event</div>
+          <div class="detail-content">
+            <button 
+              class="btn btn-register" 
+              (click)="navigateToRegistration()"
+              [disabled]="loading">
+              Register for this Event
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
     
+    <!-- 右列：事件详情 -->
     <div class="event-details">
       <h1 class="event-title">{{ event.title }}</h1>
       
@@ -46,6 +90,19 @@
       <div class="detail-item">
         <div class="detail-label">Category</div>
         <div class="detail-content">{{ event.category_name }}</div>
+      </div>
+
+      <!-- 筹款信息 -->
+      <div class="detail-item" *ngIf="event.ticket_price || event.current_amount">
+        <div class="detail-label">Fundraising Information</div>
+        <div class="detail-content">
+          <div *ngIf="event.ticket_price">
+            <strong>Ticket Price:</strong> ${{ event.ticket_price }}
+          </div>
+          <div *ngIf="event.current_amount">
+            <strong>Current Amount Raised:</strong> ${{ event.current_amount }} / ${{ event.target }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
