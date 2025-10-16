@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { SearchComponent } from './components/search/search.component';
 import { DescriptionComponent } from './components/description/description.component';
+import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
     HomeComponent,
     SearchComponent,
     DescriptionComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
