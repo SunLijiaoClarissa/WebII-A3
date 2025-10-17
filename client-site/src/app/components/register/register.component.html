@@ -5,17 +5,17 @@
     {{ errorMessage }}
   </div>
 
-  <!-- 成功注册消息 -->
+  <!-- regist success msg -->
   <div *ngIf="success" class="success-message">
     <div class="success-content">
-      <h3>🎉 Registration Successful!</h3>
+      <h3>Registration Successful!</h3>
       <p>Thank you for registering for this event. You will be redirected to the event details page in a few seconds.</p>
       <button class="btn btn-secondary" (click)="goBack()">Return to Event Details</button>
     </div>
   </div>
 
   <div *ngIf="event && !success" class="registration-container">
-    <!-- 事件信息 -->
+    <!-- event detail -->
     <div class="event-info-card">
       <h3>Event Details</h3>
       <div class="event-card">
@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <!-- 注册表单 -->
+    <!-- registration form -->
     <div class="registration-form-card">
       <h3>Registration Form</h3>
       <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">

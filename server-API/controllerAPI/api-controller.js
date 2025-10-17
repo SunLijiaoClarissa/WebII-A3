@@ -134,5 +134,52 @@ router.get("/regist/:id", (req, res) => {
 });
 
 
+// create new regist
+router.post('/registrations', async (req, res) => {
+
+    const {
+        event_id,
+        user_name,
+        user_email,
+        contact_number,
+        registration_date,
+        ticket_quantity
+    } = req.body;
+
+    // Check data 
+    if (!event_id || !user_name || !user_email || !ticket_quantity) {
+        return res.status(400).json({
+            error: "Missing required fields:",
+            msg: { event_id, user_name, user_email, ticket_quantity }
+        });
+    }
+
+    const insertQuery = `
+      INSERT INTO registrations 
+      (event_id, user_name, user_email, contact_number, registration_date, ticket_quantity) 
+      VALUES (?, ?, ?, ?, ?, ?)
+    `;
+
+    const currentDate = registration_date || new Date().toISOString().split('T')[0];
+
+
+    connection.query(insertQuery, [event_id, user_name, user_email, contact_number, currentDate, ticket_quantity], (err, results) => {
+
+        if (err) {
+            console.error("Error inserting event:", err);
+            return res.status(500).json({ error: "Failed to insert regist" });
+        }
+
+
+        res.status(201).json({
+            message: 'Registration created successfully',
+            registration_id: results.insertId,
+        });
+
+
+    });
+
+
+});
 
 module.exports = router;
