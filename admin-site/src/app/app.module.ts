@@ -10,7 +10,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/events', pathMatch: 'full' },
+  // { path: '', redirectTo: '/events', pathMatch: 'full' },
   { 
     path: '', 
     component: DashboardComponent,
