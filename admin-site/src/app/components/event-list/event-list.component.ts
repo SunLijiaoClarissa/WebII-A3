@@ -65,14 +65,25 @@ export class EventListComponent implements OnInit {
     }
   }
 
-  getStatusBadgeClass(status: string): string {
-    switch (status?.toLowerCase()) {
-      case 'active': return 'badge-active';
-      case 'past': return 'badge-past';
-      case 'suspended': return 'badge-suspended';
-      default: return 'badge-default';
+   // status
+  getStatusText(status: number): string {
+    switch (status) {
+      case 1: return 'Active';
+      case 0: return 'Suspended';
+      default: return 'Unknown';
     }
   }
+
+   
+  getTicketPrice(ticketPrice: string | number | null | undefined): string {
+    if (ticketPrice === null || ticketPrice === undefined || ticketPrice === '') {
+      return 'Free';
+    }
+    
+    const price = typeof ticketPrice === 'string' ? parseFloat(ticketPrice) : ticketPrice;
+    return `$${price.toFixed(2)}`;
+  }
+
 
   formatDate(dateString: string): string {
     return this.eventService.formatDate(dateString);

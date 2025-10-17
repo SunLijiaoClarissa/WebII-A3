@@ -1,1 +1,82 @@
-<p>event-list works!</p>
+<!-- components/event-list/event-list.component.html -->
+<div class="event-list-page">
+  <div class="page-header">
+    <h2>Event Management</h2>
+    <button class="btn btn-primary" (click)="createNewEvent()">
+      + Create New Event
+    </button>
+  </div>
+
+  <!-- 调试信息 -->
+  <div *ngIf="events.length > 0" class="debug-info" style="background: #e8f5e8; padding: 10px; margin-bottom: 15px; border-radius: 4px;">
+    Loaded {{ events.length }} events successfully
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading events...</p>
+  </div>
+
+  <div *ngIf="!loading && events.length === 0" class="empty-state">
+    <h3>No events found</h3>
+    <p>Get started by creating your first event.</p>
+    <button class="btn btn-primary" (click)="createNewEvent()">
+      Create Event
+    </button>
+  </div>
+
+  <div class="events-table-container" *ngIf="!loading && events.length > 0">
+    <table class="events-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Date</th>
+          <th>Location</th>
+          <th>Category ID</th>
+          <th>Status</th>
+          <th>Ticket Price</th>
+          <th>Target Amount</th>
+          <th>Current Amount</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of events">
+          <td class="event-id">{{ event.id }}</td>
+          <td class="event-title">{{ event.title }}</td>
+          <td>
+            <div>{{ formatDate(event.start_date) }}</div>
+            <div class="text-muted">to {{ formatDate(event.end_date) }}</div>
+          </td>
+          <td>{{ event.location }}</td>
+          <td>
+            <span class="category-badge">{{ event.category_id }}</span>
+          </td>
+          <td>
+            <span [class]="'status-badge ' + getStatusText(event.status)">
+              {{ getStatusText(event.status) }}
+            </span>
+          </td>
+          <td>
+            {{ getTicketPrice(event.ticket_price) }}
+          </td>
+          <td>${{ event.target }}</td>
+          <td>${{ event.current_amount }}</td>
+          <td class="actions">
+            <button class="btn btn-sm btn-edit" (click)="editEvent(event.id!)">
+              Edit
+            </button>
+            <button class="btn btn-sm btn-delete" (click)="deleteEvent(event.id!)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

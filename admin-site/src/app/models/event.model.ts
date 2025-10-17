@@ -7,11 +7,11 @@ export interface Event {
   location: string;
   organizer_id: number;
   category_id: number;
-  category_name?: string;
-  ticket_price?: number;
+  category_name?: string; 
+  ticket_price?: string | number | null; 
   target: string;
-  current_amount?: number;
-  status?: string;
+  current_amount: string;
+  status: number; 
 }
 
 export interface Category {
