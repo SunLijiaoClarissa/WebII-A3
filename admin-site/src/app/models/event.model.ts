@@ -5,9 +5,10 @@ export interface Event {
   start_date: string;
   end_date: string;
   location: string;
-  organizer_id: number;
+  organizer_name: string;
+  organizer_email:string;
   category_id: number;
-  category_name?: string; 
+  category_name: string; 
   ticket_price?: string | number | null; 
   target: string;
   current_amount: string;

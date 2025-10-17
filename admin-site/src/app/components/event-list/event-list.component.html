@@ -7,11 +7,6 @@
     </button>
   </div>
 
-  <!-- 调试信息 -->
-  <div *ngIf="events.length > 0" class="debug-info" style="background: #e8f5e8; padding: 10px; margin-bottom: 15px; border-radius: 4px;">
-    Loaded {{ events.length }} events successfully
-  </div>
-
   <div *ngIf="errorMessage" class="alert alert-error">
     {{ errorMessage }}
   </div>
@@ -33,11 +28,10 @@
     <table class="events-table">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Title</th>
-          <th>Date</th>
+          <th>Start Date</th>
           <th>Location</th>
-          <th>Category ID</th>
+          <th>Category</th>
           <th>Status</th>
           <th>Ticket Price</th>
           <th>Target Amount</th>
@@ -47,15 +41,15 @@
       </thead>
       <tbody>
         <tr *ngFor="let event of events">
-          <td class="event-id">{{ event.id }}</td>
+          <!-- <td class="event-id">{{ event.id }}</td> -->
           <td class="event-title">{{ event.title }}</td>
           <td>
             <div>{{ formatDate(event.start_date) }}</div>
-            <div class="text-muted">to {{ formatDate(event.end_date) }}</div>
+            <!-- <div class="text-muted">to {{ formatDate(event.end_date) }}</div> -->
           </td>
           <td>{{ event.location }}</td>
           <td>
-            <span class="category-badge">{{ event.category_id }}</span>
+            <span class="category-badge">{{ event.category_name }}</span>
           </td>
           <td>
             <span [class]="'status-badge ' + getStatusText(event.status)">

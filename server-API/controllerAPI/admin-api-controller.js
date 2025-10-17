@@ -9,7 +9,17 @@ connection.connect();
 
 // get all events
 router.get("/events", (req, res) => {
-    connection.query("SELECT * FROM events", (err, results) => {
+    connection.query(`
+        SELECT 
+            e.*,
+            o.name AS organizer_name,
+            o.email AS organizer_email,
+            c.name AS category_name
+        FROM  events e
+        LEFT JOIN organizations o ON e.organizer_id = o.id
+        LEFT JOIN categories c ON e.category_id = c.id
+        
+        ` , (err, results) => {
         if (err) {
             console.log("Error when retriving the data");
         }
