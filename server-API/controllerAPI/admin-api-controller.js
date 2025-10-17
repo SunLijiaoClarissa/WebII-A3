@@ -7,6 +7,18 @@ const connection = dbcon.getConnection();
 // Connect to db
 connection.connect();
 
+// get all events
+router.get("/events", (req, res) => {
+    connection.query("SELECT * FROM events", (err, results) => {
+        if (err) {
+            console.log("Error when retriving the data");
+        }
+        else {
+            res.json(results);
+        }
+    });
+});
+
 // create event
 router.post("/event", (req, res) => {
 

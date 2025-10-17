@@ -7,14 +7,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { EventListComponent } from './components/event-list/event-list.component';
 
 
 const routes: Routes = [
-  // { path: '', redirectTo: '/events', pathMatch: 'full' },
+  { path: '', redirectTo: '/events', pathMatch: 'full' },
   { 
     path: '', 
     component: DashboardComponent,
     children: [
+       { path: 'events', component: EventListComponent },
     
     ]
   },
@@ -25,6 +27,7 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     DashboardComponent,
+    EventListComponent,
 
   ],
   imports: [
