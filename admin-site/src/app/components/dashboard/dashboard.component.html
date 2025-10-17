@@ -1,1 +1,19 @@
-<p>dashboard works!</p>
+<div class="admin-dashboard">
+  <!-- nav -->
+  <nav class="admin-navbar">
+    <div class="navbar-brand">
+      <h1>Event Management Admin</h1>
+    </div>
+    <ul class="navbar-nav">
+      <li><a routerLink="/events" routerLinkActive="active">Events List</a></li>
+      <li><a routerLink="/events/new" routerLinkActive="active">Create Event</a></li>
+    </ul>
+  </nav>
+
+  <!-- main -->
+  <main class="admin-main">
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
