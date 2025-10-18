@@ -18,6 +18,7 @@ const routes: Routes = [
     component: DashboardComponent,
     children: [
        { path: 'events', component: EventListComponent },
+        { path: 'events/new', component: EventFormComponent },
         { path: 'events/edit/:id', component: EventFormComponent },
       { path: '', redirectTo: 'events', pathMatch: 'full' }
     ]

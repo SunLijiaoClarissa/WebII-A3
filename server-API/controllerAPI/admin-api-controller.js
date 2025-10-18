@@ -106,12 +106,13 @@ router.post("/event", (req, res) => {
         location,
         organizer_id,
         category_id,
+        ticket_price,
         target,
         current_amount,
         status
     } = req.body;
 
-    console.log("post event request body", req.body)
+    console.log("create event", req.body)
 
     // Check data integrity
     if (!title || !start_date || !end_date || !location || !organizer_id || !category_id) {
@@ -122,8 +123,8 @@ router.post("/event", (req, res) => {
     }
 
     const insertQuery = `
-        INSERT INTO events (title, description, start_date, end_date, location, organizer_id, category_id, target, current_amount, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO events (title, description, start_date, end_date, location, organizer_id, category_id, ticket_price, target, current_amount, status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const values = [
@@ -134,6 +135,7 @@ router.post("/event", (req, res) => {
         location,
         organizer_id,
         category_id,
+        ticket_price,
         target || 0,
         current_amount || 0,
         status || 1

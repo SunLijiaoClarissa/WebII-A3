@@ -43,8 +43,8 @@ export class EventFormComponent implements OnInit {
 
   createForm(): FormGroup {
     return this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(5)]],
-      description: ['', [Validators.required, Validators.minLength(10)]],
+      title: ['', [Validators.required, Validators.minLength(4)]],
+      description: ['', [Validators.required, Validators.minLength(5)]],
       start_date: ['', Validators.required],
       end_date: ['', Validators.required],
       location: ['', Validators.required],

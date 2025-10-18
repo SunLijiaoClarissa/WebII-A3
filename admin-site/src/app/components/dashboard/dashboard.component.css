@@ -6,8 +6,8 @@
 }
 
 .admin-navbar {
-  background: #bf4be3;
-  color: white;
+  background: #8fbbe6;
+  color: rgb(0, 0, 0);
   padding: 0 2rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -40,7 +40,7 @@
 
 .navbar-nav a:hover,
 .navbar-nav a.active {
-  background: #2f1d34;
+  background: #85b1dd;
   color: #fefefe;
   border-bottom-color: #101010;
 }
