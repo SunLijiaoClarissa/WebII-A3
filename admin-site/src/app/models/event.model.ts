@@ -5,6 +5,7 @@ export interface Event {
   start_date: string;
   end_date: string;
   location: string;
+  organizer_id:string;
   organizer_name: string;
   organizer_email:string;
   category_id: number;
