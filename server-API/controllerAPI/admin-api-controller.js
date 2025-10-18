@@ -29,6 +29,72 @@ router.get("/events", (req, res) => {
     });
 });
 
+//get event by id
+router.get("/events/:id", (req, res) => {
+    const eventId = req.params.id;
+
+    const eventQuery = `
+        SELECT 
+            e.*,
+            o.name AS organizer_name,
+            o.email AS organizer_email,
+            c.name AS category_name
+        FROM  events e
+        LEFT JOIN organizations o ON e.organizer_id = o.id
+        LEFT JOIN categories c ON e.category_id = c.id
+        WHERE e.id = ?
+    `;
+
+    //relate registration
+    const registrationsQuery = `
+            SELECT *
+            FROM registrations
+            WHERE event_id = ?
+            ORDER BY registration_date DESC
+        `;
+
+    connection.query(eventQuery, eventId, (err, eventResults) => {
+        if (err) {
+            console.log("event data error", err);
+        }
+        else {
+            const event = eventResults[0];
+
+            connection.query(registrationsQuery, eventId, (err, registrationResults) => {
+                if (err) {
+                    console.error("registration data error", err);
+                }
+
+                event.registrations = registrationResults;
+                res.json(event);
+            });
+        }
+    });
+
+});
+
+router.get("/categories", (req, res) => {
+    connection.query("SELECT * FROM categories", (err, results) => {
+        if (err) {
+            console.log("Error when retriving the data");
+        }
+        else {
+            res.json(results);
+        }
+    });
+});
+
+router.get("/organnizations", (req, res) => {
+    connection.query("SELECT * FROM organnizations", (err, results) => {
+        if (err) {
+            console.log("Error when retriving the data");
+        }
+        else {
+            res.json(results);
+        }
+    });
+});
+
 // create event
 router.post("/event", (req, res) => {
 
