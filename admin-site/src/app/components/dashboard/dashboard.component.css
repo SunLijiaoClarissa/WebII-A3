@@ -6,7 +6,7 @@
 }
 
 .admin-navbar {
-  background: #2c3e50;
+  background: #bf4be3;
   color: white;
   padding: 0 2rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -40,9 +40,9 @@
 
 .navbar-nav a:hover,
 .navbar-nav a.active {
-  background: #34495e;
-  color: #3498db;
-  border-bottom-color: #3498db;
+  background: #2f1d34;
+  color: #fefefe;
+  border-bottom-color: #101010;
 }
 
 .admin-main {
