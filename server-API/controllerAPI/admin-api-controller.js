@@ -84,8 +84,8 @@ router.get("/categories", (req, res) => {
     });
 });
 
-router.get("/organnizations", (req, res) => {
-    connection.query("SELECT * FROM organnizations", (err, results) => {
+router.get("/organizations", (req, res) => {
+    connection.query("SELECT * FROM organizations", (err, results) => {
         if (err) {
             console.log("Error when retriving the data");
         }

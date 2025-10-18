@@ -21,6 +21,14 @@ export interface Category {
   name: string;
 }
 
+
+export interface Oraganzations {
+  id: number;
+  name: string;
+  email:string;
+}
+
+
 export interface Registration {
   id: number;
   event_id: number;
