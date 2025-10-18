@@ -5,7 +5,7 @@
       <h1>Event Management Admin</h1>
     </div>
     <ul class="navbar-nav">
-      <li><a routerLink="/events" routerLinkActive="active">Events List</a></li>
+      <li><a routerLink="/events" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Events List</a></li>
       <li><a routerLink="/events/new" routerLinkActive="active">Create Event</a></li>
         <li><a routerLink="/" >Back to Main Site</a></li>
     </ul>
