@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Event, Category, Registration } from '../models/event.model';
+import { Event, Category, Registration, Oraganizations } from '../models/event.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +39,11 @@ export class EventService {
   // category
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.apiUrl}/categories`);
+  }
+
+  //organizations
+  getOrganizations(): Observable<Oraganizations[]> {
+    return this.http.get<Oraganizations[]>(`${this.apiUrl}/organizations`);
   }
 
   // get event regist

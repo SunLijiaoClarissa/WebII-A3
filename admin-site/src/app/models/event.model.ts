@@ -22,7 +22,7 @@ export interface Category {
 }
 
 
-export interface Oraganzations {
+export interface Oraganizations {
   id: number;
   name: string;
   email:string;

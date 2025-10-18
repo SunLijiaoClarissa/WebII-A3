@@ -69,7 +69,7 @@ export class EventListComponent implements OnInit {
   getStatusText(status: number): string {
     switch (status) {
       case 1: return 'Active';
-      case 0: return 'Suspended';
+      case 0: return 'Baned';
       default: return 'Unknown';
     }
   }

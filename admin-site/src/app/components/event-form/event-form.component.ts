@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '../../services/event.service';
-import { Category, Event } from '../../models/event.model';
+import { Category, Event, Oraganizations } from '../../models/event.model';
 
 @Component({
   selector: 'app-event-form',
@@ -13,6 +13,7 @@ import { Category, Event } from '../../models/event.model';
 export class EventFormComponent implements OnInit {
   eventForm: FormGroup;
   categories: Category[] = [];
+  organizations: Oraganizations[] = [];
   loading = false;
   submitted = false;
   isEditMode = false;
@@ -31,7 +32,7 @@ export class EventFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCategories();
-
+    this.loadOrganizations();
     this.eventId = this.route.snapshot.params['id'];
     this.isEditMode = !!this.eventId;
 
@@ -68,6 +69,18 @@ export class EventFormComponent implements OnInit {
     });
   }
 
+  loadOrganizations(): void {
+    this.eventService.getOrganizations().subscribe({
+      next: (organizations) => {
+        this.organizations = organizations;
+      },
+      error: (error) => {
+        console.error('Failed to load organizations:', error);
+        this.errorMessage = 'Failed to load organizations.';
+      }
+    });
+  }
+
   loadEventDetails(eventId: number): void {
     this.loading = true;
     this.eventService.getEventById(eventId).subscribe({
@@ -82,7 +95,7 @@ export class EventFormComponent implements OnInit {
           organizer_name: event.organizer_name,
           organizer_email: event.organizer_email,
           category_id: event.category_id,
-          category_name:event.category_name,
+          category_name: event.category_name,
           ticket_price: event.ticket_price || 0,
           target: event.target,
           current_amount: event.current_amount || 0,

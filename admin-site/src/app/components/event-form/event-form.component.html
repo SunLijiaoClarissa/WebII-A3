@@ -1,191 +1,150 @@
 <div class="event-form-page">
-  <div class="page-header">
-    <h2>{{ isEditMode ? 'Edit Event' : 'Create New Event' }}</h2>
-    <button class="btn btn-secondary" (click)="onCancel()">
-      Back to Events
-    </button>
-  </div>
+    <div class="page-header">
+        <h2>{{ isEditMode ? 'Edit Event' : 'Create New Event' }}</h2>
+        <button class="btn btn-secondary" (click)="onCancel()">
+            Back to Events
+        </button>
+    </div>
 
-  <div *ngIf="successMessage" class="alert alert-success">
-    {{ successMessage }}
-  </div>
+    <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+    </div>
 
-  <div *ngIf="errorMessage" class="alert alert-error">
-    {{ errorMessage }}
-  </div>
+    <div *ngIf="errorMessage" class="alert alert-error">
+        {{ errorMessage }}
+    </div>
 
-  <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" *ngIf="!loading" class="event-form">
-    <div class="form-grid">
-      <div class="form-group">
-        <label for="title">Event Title *</label>
-        <input 
-          type="text" 
-          id="title" 
-          formControlName="title" 
-          class="form-control"
-          [class.error]="submitted && f['title'].errors"
-          placeholder="Enter event title">
-        <div *ngIf="submitted && f['title'].errors" class="error-message">
-          <div *ngIf="f['title'].errors['required']">Title is required</div>
-          <div *ngIf="f['title'].errors['minlength']">Title must be at least 5 characters</div>
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" *ngIf="!loading" class="event-form">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="title">Event Title *</label>
+                <input type="text" id="title" formControlName="title" class="form-control"
+                    [class.error]="submitted && f['title'].errors" placeholder="Enter event title">
+                <div *ngIf="submitted && f['title'].errors" class="error-message">
+                    <div *ngIf="f['title'].errors['required']">Title is required</div>
+                    <div *ngIf="f['title'].errors['minlength']">Title must be at least 5 characters</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="category_id">Category *</label>
+                <select id="category_id" formControlName="category_id" class="form-control"
+                    [class.error]="submitted && f['category_id'].errors">
+                    <option value="">Select a category</option>
+                    <option *ngFor="let category of categories" [value]="category.id">
+                        {{ category.name }}
+                    </option>
+                </select>
+                <div *ngIf="submitted && f['category_id'].errors" class="error-message">
+                    Category is required
+                </div>
+            </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="category_id">Category *</label>
-        <select 
-          id="category_id" 
-          formControlName="category_id"
-          class="form-control"
-          [class.error]="submitted && f['category_id'].errors">
-          <option value="">Select a category</option>
-          <option *ngFor="let category of categories" [value]="category.id">
-            {{ category.name }}
-          </option>
-        </select>
-        <div *ngIf="submitted && f['category_id'].errors" class="error-message">
-          Category is required
+        <div class="form-group">
+            <label for="description">Description *</label>
+            <textarea id="description" formControlName="description" class="form-control"
+                [class.error]="submitted && f['description'].errors" rows="4"
+                placeholder="Enter event description"></textarea>
+            <div *ngIf="submitted && f['description'].errors" class="error-message">
+                <div *ngIf="f['description'].errors['required']">Description is required</div>
+                <div *ngIf="f['description'].errors['minlength']">Description must be at least 10 characters</div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="form-group">
-      <label for="description">Description *</label>
-      <textarea 
-        id="description" 
-        formControlName="description" 
-        class="form-control"
-        [class.error]="submitted && f['description'].errors"
-        rows="4"
-        placeholder="Enter event description"></textarea>
-      <div *ngIf="submitted && f['description'].errors" class="error-message">
-        <div *ngIf="f['description'].errors['required']">Description is required</div>
-        <div *ngIf="f['description'].errors['minlength']">Description must be at least 10 characters</div>
-      </div>
-    </div>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="start_date">Start Date *</label>
+                <input type="date" id="start_date" formControlName="start_date" class="form-control"
+                    [class.error]="submitted && f['start_date'].errors">
+                <div *ngIf="submitted && f['start_date'].errors" class="error-message">
+                    Start date is required
+                </div>
+            </div>
 
-    <div class="form-grid">
-      <div class="form-group">
-        <label for="start_date">Start Date *</label>
-        <input 
-          type="date" 
-          id="start_date" 
-          formControlName="start_date" 
-          class="form-control"
-          [class.error]="submitted && f['start_date'].errors">
-        <div *ngIf="submitted && f['start_date'].errors" class="error-message">
-          Start date is required
+            <div class="form-group">
+                <label for="end_date">End Date *</label>
+                <input type="date" id="end_date" formControlName="end_date" class="form-control"
+                    [class.error]="submitted && f['end_date'].errors">
+                <div *ngIf="submitted && f['end_date'].errors" class="error-message">
+                    End date is required
+                </div>
+            </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="end_date">End Date *</label>
-        <input 
-          type="date" 
-          id="end_date" 
-          formControlName="end_date" 
-          class="form-control"
-          [class.error]="submitted && f['end_date'].errors">
-        <div *ngIf="submitted && f['end_date'].errors" class="error-message">
-          End date is required
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="location">Location *</label>
+                <input type="text" id="location" formControlName="location" class="form-control"
+                    [class.error]="submitted && f['location'].errors" placeholder="Enter event location">
+                <div *ngIf="submitted && f['location'].errors" class="error-message">
+                    Location is required
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="target">Target Amount *</label>
+                <input type="number" id="target" formControlName="target" class="form-control"
+                    [class.error]="submitted && f['target'].errors" min="0" step="0.01">
+                <div *ngIf="submitted && f['target'].errors" class="error-message">
+                    Target amount is required
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="form-grid">
-      <div class="form-group">
-        <label for="location">Location *</label>
-        <input 
-          type="text" 
-          id="location" 
-          formControlName="location" 
-          class="form-control"
-          [class.error]="submitted && f['location'].errors"
-          placeholder="Enter event location">
-        <div *ngIf="submitted && f['location'].errors" class="error-message">
-          Location is required
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="ticket_price">Ticket Price ($)</label>
+                <input type="number" id="ticket_price" formControlName="ticket_price" class="form-control"
+                    [class.error]="submitted && f['ticket_price'].errors" min="0" step="0.01">
+                <div *ngIf="submitted && f['ticket_price'].errors" class="error-message">
+                    <div *ngIf="f['ticket_price'].errors['required']">Ticket price is required</div>
+                    <div *ngIf="f['ticket_price'].errors['min']">Ticket price cannot be negative</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="current_amount">Current Amount</label>
+                <input type="number" id="current_amount" formControlName="current_amount" class="form-control" min="0"
+                    step="0.01">
+            </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="target">Target Amount *</label>
-        <input 
-          type="number" 
-          id="target" 
-          formControlName="target" 
-          class="form-control"
-          [class.error]="submitted && f['target'].errors"
-          min="0" 
-          step="0.01">
-        <div *ngIf="submitted && f['target'].errors" class="error-message">
-          Target amount is required
+        <div class="form-group" *ngIf="isEditMode">
+            <label for="status">Status</label>
+            <select id="status" formControlName="status" class="form-control">
+                <option [value]="1">Active</option>
+                <option [value]="0">Baned</option>
+            </select>
         </div>
-      </div>
-    </div>
 
-    <div class="form-grid">
-      <div class="form-group">
-        <label for="ticket_price">Ticket Price ($)</label>
-        <input 
-          type="number" 
-          id="ticket_price" 
-          formControlName="ticket_price" 
-          class="form-control"
-          [class.error]="submitted && f['ticket_price'].errors"
-          min="0" 
-          step="0.01">
-        <div *ngIf="submitted && f['ticket_price'].errors" class="error-message">
-          <div *ngIf="f['ticket_price'].errors['required']">Ticket price is required</div>
-          <div *ngIf="f['ticket_price'].errors['min']">Ticket price cannot be negative</div>
+        <div class="form-group">
+            <label for="organizer_id">Organizer *</label>
+            <select id="organizer_id" formControlName="organizer_id" class="form-control"
+                [class.error]="submitted && f['organizer_id'].errors">
+                <option value="">Select a organizer</option>
+                <option *ngFor="let organizer of organizations" [value]="organizer.id">
+                    {{ organizer.name }}
+                </option>
+            </select>
+            <div *ngIf="submitted && f['organizer_id'].errors" class="error-message">
+                Organizer is required
+            </div>
         </div>
-      </div>
+   
+        <div class="form-actions">
+            <button type="button" class="btn btn-secondary" (click)="onCancel()">
+                Cancel
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="loading">
+                <span *ngIf="loading">Saving...</span>
+                <span *ngIf="!loading">{{ isEditMode ? 'Update Event' : 'Create Event' }}</span>
+            </button>
+        </div>
+    </form>
 
-      <div class="form-group">
-        <label for="current_amount">Current Amount</label>
-        <input 
-          type="number" 
-          id="current_amount" 
-          formControlName="current_amount" 
-          class="form-control"
-          min="0"
-          step="0.01">
-      </div>
+    <div *ngIf="loading" class="loading-state">
+        <div class="spinner"></div>
+        <p>{{ isEditMode ? 'Loading event details...' : 'Creating event...' }}</p>
     </div>
-
-    <div class="form-group" *ngIf="isEditMode">
-      <label for="status">Status</label>
-      <select 
-        id="status" 
-        formControlName="status"
-        class="form-control">
-        <option [value]="1">Active</option>
-        <option [value]="0">Suspended</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="organizer_id">Organizer ID</label>
-      <input 
-        type="number" 
-        id="organizer_id" 
-        formControlName="organizer_id" 
-        class="form-control"
-        min="1">
-    </div>
-
-    <div class="form-actions">
-      <button type="button" class="btn btn-secondary" (click)="onCancel()">
-        Cancel
-      </button>
-      <button type="submit" class="btn btn-primary" [disabled]="loading">
-        <span *ngIf="loading">Saving...</span>
-        <span *ngIf="!loading">{{ isEditMode ? 'Update Event' : 'Create Event' }}</span>
-      </button>
-    </div>
-  </form>
-
-  <div *ngIf="loading" class="loading-state">
-    <div class="spinner"></div>
-    <p>{{ isEditMode ? 'Loading event details...' : 'Creating event...' }}</p>
-  </div>
 </div>
