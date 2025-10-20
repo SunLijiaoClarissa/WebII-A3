@@ -11,7 +11,7 @@ export interface Category {
   providedIn: 'root'
 })
 export class CategoryService {
-  private apiUrl = 'http://localhost:3060/api';
+  private apiUrl = 'http://24516976.it.scu.edu.au/api';
 
   constructor(private http: HttpClient) { }
 

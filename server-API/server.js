@@ -15,7 +15,7 @@ server.use(bodyParser.urlencoded({extended:false}));
 
 //api
 server.use("/api", appAPI);
-server.use("/admin", adminAPI);
+server.use("/api/admin", adminAPI);
 
 
 

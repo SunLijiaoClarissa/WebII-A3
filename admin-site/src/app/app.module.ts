@@ -13,13 +13,12 @@ import { EventFormComponent } from './components/event-form/event-form.component
 
 const routes: Routes = [
   { path: '', redirectTo: '/events', pathMatch: 'full' },
-  { 
-    path: '', 
-    component: DashboardComponent,
+  {
+    path: '', component: DashboardComponent,
     children: [
-       { path: 'events', component: EventListComponent },
-        { path: 'events/new', component: EventFormComponent },
-        { path: 'events/edit/:id', component: EventFormComponent },
+      { path: 'events', component: EventListComponent },
+      { path: 'events/new', component: EventFormComponent },
+      { path: 'events/edit/:id', component: EventFormComponent},
       { path: '', redirectTo: 'events', pathMatch: 'full' }
     ]
   },

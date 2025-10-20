@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "client-site": {
+    "admin-site": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -21,32 +21,35 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "baseHref": "/client-site/",
-            "outputPath": "dist/client-site",
+            "baseHref": "/admin-site/",
+            "outputPath": "dist/admin-site",
             "index": "src/index.html",
-            "main":"src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
-                 "glob": "**/*",
-                "input": "src/assets",
-                "output": "/assets/"
+                "glob": "**/*",
+                "input": "public"
               }
             ],
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
-         
+            "scripts": [],
+            "server": "src/main.server.ts",
+            "outputMode": "server",
+            "ssr": {
+              "entry": "src/server.ts"
+            }
           },
           "configurations": {
             "production": {
-            "baseHref": "/client-site/",
+            "baseHref": "/admin-site/",
               "budgets": [
                 {
                   "type": "initial",
@@ -73,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "client-site:build:production"
+              "buildTarget": "admin-site:build:production"
             },
             "development": {
-              "buildTarget": "client-site:build:development"
+              "buildTarget": "admin-site:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -108,6 +111,6 @@
     }
   },
   "cli": {
-    "analytics": "bae6d1c2-6ade-47e4-9d61-b28ecdeb2f29"
+    "analytics": "e7bc4b6d-eb7e-45b3-accb-45cb6d38905b"
   }
 }

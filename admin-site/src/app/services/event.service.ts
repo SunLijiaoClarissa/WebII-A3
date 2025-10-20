@@ -7,7 +7,7 @@ import { Event, Category, Registration, Oraganizations } from '../models/event.m
   providedIn: 'root'
 })
 export class EventService {
-  private apiUrl = 'http://localhost:3060/admin';
+  private apiUrl = 'http://24516976.it.scu.edu.au/api/admin';
 
   constructor(private http: HttpClient) { }
 
